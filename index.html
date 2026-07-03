@@ -323,11 +323,12 @@ footer{border-top:1px solid var(--line);background:var(--ink);color:var(--paper)
 .gate-note{font-size:.85rem;color:#fff;margin-top:8px;font-style:italic}
 #gate{
   position:fixed;inset:0;z-index:200;background:var(--red);color:#fff;
-  display:flex;align-items:center;justify-content:center;padding:24px;
+  display:flex;padding:24px;
   overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
 }
 #gate.open{display:none}
-.gate-card{max-width:640px;width:100%}
+.gate-card{max-width:640px;width:100%;margin:auto}
 .gate-tri{
   width:0;height:0;border-left:34px solid transparent;border-right:34px solid transparent;
   border-bottom:58px solid #fff;position:relative;margin-bottom:30px;
@@ -395,15 +396,36 @@ body.gated{overflow:hidden}
 }
 @media (max-width:640px){
   .nav-links a:not(:last-child){display:none}
+  .hero-inner{padding:44px var(--pad) 40px}
+  h1{font-size:clamp(1.9rem,8.6vw,2.4rem)}
+  .hero-sub{margin-top:18px}
+  .hero-grid{gap:24px}
+  .term{max-width:none}
+  section{padding:44px var(--pad)}
+  .sec-head{margin-bottom:24px}
   .hero-meta{grid-template-columns:1fr;max-width:none}
   .ch-stats{flex-direction:column}
   .stat + .stat{border-left:0;border-top:1px solid var(--line)}
+  .stat .num{font-size:1.9rem}
   .ch-band .dates{margin-left:0;width:100%}
   .t-row{grid-template-columns:1fr;gap:6px;padding:18px 0}
   .sec-note{display:none}
   .fox-stats{flex-direction:column}
   .fox-stats .stat + .stat{border-left:0;border-top:1px solid var(--line)}
   .case-link{margin-left:0}
+  .foot-inner{padding:48px var(--pad)}
+  .foot-meta{margin-top:40px}
+  /* gate on small screens */
+  #gate{padding:20px 18px}
+  .gate-tri{border-left-width:26px;border-right-width:26px;border-bottom-width:44px;margin-bottom:18px}
+  .gate-tri::after{left:-5px;top:12px;font-size:23px}
+  .gate-card .gate-body{margin-top:10px;font-size:.92rem}
+  .gate-check{margin-top:16px;font-size:.84rem}
+  .gate-form{margin-top:20px}
+  #gate-pass{width:100%;flex:none}
+  .gate-btn{flex:1;padding:12px 10px;white-space:nowrap}
+  .gate-foot{margin-top:22px}
+  .gate-small{margin-top:16px}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -424,7 +446,7 @@ body.gated{overflow:hidden}
     <h2 id="gate-title">Suspicious visitor ahead*</h2>
     <p class="gate-note">*not actually. This is a joke landing page, not a browser warning. Your device is fine.</p>
     <p class="gate-body">Our extremely sophisticated systems (a single if-statement) have detected that <b>you</b> are about to view the portfolio of a Product Owner who disrupts phishing infrastructure for a living. Proceeding may result in you doing something dangerous, like <b>offering James a role</b>.</p>
-    <label class="gate-check"><input type="checkbox" checked> Automatically send James your job offer to help detect great product opportunities. <u>Privacy policy</u>: there isn't one, this checkbox does nothing.</label>
+    <label class="gate-check"><input type="checkbox" checked> <span>Automatically send James your job offer to help detect great product opportunities. <u>Privacy policy</u>: there isn't one, this checkbox does nothing.</span></label>
 
     <form class="gate-form" id="gate-form">
       <label for="gate-pass">Enter passphrase to proceed</label>
