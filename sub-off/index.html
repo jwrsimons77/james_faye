@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sub off · Touch rugby playbook</title>
+<style>
+:root{color-scheme:dark;--bg:#0e1923;--panel:#172633;--muted:#a5bac9;--yellow:#ffda69;--blue:#63c8ff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f1f6fa;font:15px/1.5 system-ui,-apple-system,sans-serif}main{max-width:1180px;margin:auto;padding:24px}header{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:16px}h1{font-size:30px;line-height:1.1;margin:4px 0 8px;letter-spacing:-1px}.eyebrow{color:var(--yellow);font-size:11px;font-weight:800;letter-spacing:2px}p{margin:0;color:var(--muted)}.tag{border:1px solid #345061;border-radius:30px;padding:6px 12px;font-size:12px;white-space:nowrap}.layout{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:16px}.board,.sidebar,.controls{background:var(--panel);border:1px solid #2b4050;border-radius:16px;overflow:hidden}.caption{padding:15px 20px;border-bottom:1px solid #2b4050;min-height:106px}.caption h2{margin:3px 0 5px;font-size:20px;line-height:1.3}.caption p{font-size:13px;min-height:20px}.canvas-wrap{background:#102c26}canvas{display:block;width:100%;height:auto;aspect-ratio:660/800}.sidebar{padding:20px}.sidebar h3{font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin:0 0 14px}.step{display:block;width:100%;text-align:left;border:1px solid #355064;background:#152331;color:#d9e5ee;border-radius:10px;padding:12px;margin:0 0 10px;cursor:pointer;font:inherit}.step strong{display:block;font-size:14px}.step span{font-size:12px;color:var(--muted)}.step.active{border-color:var(--yellow);background:#34332b}.notes{font-size:12px;color:var(--muted);padding-top:14px;border-top:1px solid #345061;margin-top:18px}.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--muted);padding:12px 20px}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;background:var(--blue)}.dot.def{background:#ef9797;opacity:.7}.dot.ball{background:var(--yellow);border-radius:50%;width:12px;height:7px}.key{display:inline-block;border:1px solid #496273;border-radius:4px;padding:0 5px;margin:2px}.controls{margin-top:16px;padding:16px 20px}.button-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px}button.action{border:1px solid #456171;color:#eef5fa;background:#253c4c;border-radius:8px;padding:10px 14px;font:600 13px system-ui;cursor:pointer}button.action.primary{background:var(--yellow);color:#18232c;border-color:var(--yellow);min-width:100px}button:disabled{opacity:.4;cursor:default}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--blue);outline-offset:3px}.speed{display:flex;align-items:center;gap:8px;margin-left:auto;font-size:13px;color:var(--muted)}select{background:#253c4c;color:white;border:1px solid #456171;border-radius:6px;padding:8px}.scrub{display:flex;align-items:center;gap:14px;margin-top:16px}input[type=range]{width:100%;accent-color:var(--yellow);cursor:pointer}.time{font-variant-numeric:tabular-nums;font-size:12px;white-space:nowrap;color:var(--muted)}.hint{font-size:11px;color:var(--muted);margin-top:12px}footer{font-size:11px;color:var(--muted);margin-top:14px}@media(max-width:780px){main{padding:12px}.layout{grid-template-columns:1fr}.sidebar{padding:14px}.steps{display:grid;grid-template-columns:1fr 1fr;gap:8px}.step{margin:0}.notes{margin-top:12px}.speed{margin-left:0}header .tag{display:none}h1{font-size:26px}.caption{padding:12px 16px}.caption h2{font-size:18px}}
+.controls{margin:0 0 18px;padding:18px 20px;border-color:#7b7045;background:#1e303c}.action.primary#play{min-width:205px;padding:16px 24px;font-size:18px;box-shadow:0 3px 18px #ffda6920}.scrub{margin-top:12px}@media(max-width:540px){.action.primary#play{width:100%;font-size:20px}.button-row{gap:8px}.speed{margin-left:auto}}
+
+.view-toggle{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 14px;border-bottom:1px solid #2b4050;font-size:12px;color:var(--muted)}.view-toggle button{min-height:38px;background:#253c4c;border:1px solid #456171;color:white;border-radius:8px;padding:6px 12px;font:600 12px system-ui}.sidebar summary{cursor:pointer;font-weight:700;margin-bottom:14px;min-height:36px}.sidebar details:not([open]) summary{margin-bottom:0}.mobile-status{display:none}.canvas-wrap{touch-action:pan-y}button,select,input{-webkit-tap-highlight-color:transparent}input[type=range]{min-height:32px}
+@media(max-width:600px){main{padding:8px}header{margin:2px 4px 8px}header .eyebrow{font-size:9px}h1{font-size:24px;margin:3px 0}header p{display:none}.controls{position:sticky;top:0;z-index:10;margin-bottom:8px;padding:9px;border-radius:12px;box-shadow:0 5px 14px #0005}.button-row{display:grid;grid-template-columns:1fr 1fr auto;gap:6px}.action.primary#play{grid-column:1/3;width:100%;min-width:0;min-height:48px;padding:10px 8px;font-size:17px}#restart{grid-column:3;grid-row:1;font-size:12px;padding:8px;min-height:48px}#prev{grid-column:1;font-size:12px;min-height:44px;padding:8px 4px}#next{grid-column:2;font-size:12px;min-height:44px;padding:8px 4px}.speed{grid-column:3;grid-row:2;margin:0;gap:2px;font-size:0}.speed select{font-size:13px;min-height:44px;max-width:82px;width:100%}.scrub{margin-top:2px;gap:8px}.hint{display:none}.caption{padding:9px 12px;min-height:0}.caption .eyebrow{font-size:9px}.caption h2{font-size:17px;margin:2px 0 3px}.caption p{font-size:12px;line-height:1.4;min-height:34px}.view-toggle{padding:5px 10px;font-size:11px}.view-toggle button{min-height:38px}.legend{padding:8px 12px;font-size:10px;gap:8px}.layout{gap:8px}.board{border-radius:12px}.sidebar{padding:12px;border-radius:12px}.sidebar summary{margin:0;min-height:24px}.sidebar details[open] summary{margin-bottom:12px}.step{min-height:60px}.mobile-status{display:block;padding:7px 12px;color:#ffebad;font-size:12px;line-height:1.35;background:#122d26}footer{font-size:10px}.time{font-size:11px}.notes{font-size:13px}canvas{aspect-ratio:600/390}}
+
+</style>
+</head>
+<body><main>
+<header><div><div class="eyebrow">TOUCH RUGBY / SET PLAY</div><h1>The sub off</h1><p>Far side to near side. NL and both middles switch through the sub box.</p></div><span class="tag">6 attackers · 70 × 50 m</span></header>
+<section class="controls" aria-label="Playback controls"><div class="button-row"><button class="action primary" id="play">▶ Play animation</button><button class="action" id="restart">↺ Restart</button><button class="action" id="prev">← Previous step</button><button class="action" id="next">Next step →</button><label class="speed">Speed <select id="speed"><option value="0.5">0.5×</option><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></label></div><div class="scrub"><input id="seek" type="range" min="0" max="33" step="0.01" value="0" aria-label="Animation timeline"><span class="time" id="time">0:00 / 0:33</span></div><div class="hint">Space: play/pause · ← / →: previous/next step · R: restart. Each step ends with a one-second hold at 1× speed.</div></section>
+<div class="layout"><section class="board" aria-label="Animated top-down pitch">
+<div class="caption" aria-live="polite"><div class="eyebrow" id="phase">STEP 1 OF 4</div><h2 id="title">Start · Rollball on the far side</h2><p id="detail">FW rollballs. FL plays half, then the ball moves through FM to NM.</p></div>
+<div class="view-toggle"><span id="view-label">Full pitch · attack ↑</span><button id="view" type="button" aria-pressed="false">Focus on play</button></div><div class="canvas-wrap"><canvas id="pitch" width="1320" height="1600" aria-label="Touch rugby sub off animation, with attackers moving right to left and attacking towards the top. Use the playback controls above."></canvas></div><div class="mobile-status" id="live-note" aria-live="off"></div>
+<div class="legend"><span><i class="dot"></i>Attackers</span><span><i class="dot def"></i>Defenders</span><span><i class="dot ball"></i>Ball</span><span>··· Running trail</span><span>― Pass path</span><span>Gold = subs · S1/S2/S3 on mobile</span></div>
+</section><aside class="sidebar"><details id="coaching" open><summary>Coaching notes &amp; steps</summary><h3>Walk through the play</h3><div class="steps">
+<button class="step active" data-step="0"><strong>01 / Start</strong><span>FW → FL (half) → FM → NM</span></button>
+<button class="step" data-step="1"><strong>02 / Rollball 1</strong><span>NM dumps. FL follows. FM sweeps.</span></button>
+<button class="step" data-step="2"><strong>03 / Touch 2</strong><span>FL → FM. NM becomes half.</span></button>
+<button class="step" data-step="3"><strong>04 / Sub off</strong><span>NM → FL. NL + both middles off. Three subs on.</span></button>
+</div><div class="notes"><h3>Player key</h3><p><strong>NW / NL / NM</strong><br>Near Wing / Link / Middle</p><p style="margin-top:8px"><strong>FM / FL / FW</strong><br>Far Middle / Link / Wing</p><p style="margin-top:12px">Near = left, closest to the sub box.<br>Far = right, furthest from the sub box.</p></div><div class="notes"><h3>Watch for</h3><p>FL follows across to play half. FM loops behind the rollball, then straightens. NL leaves alongside both middles; NM passes before leaving. Each substitute enters after their player is off. NW arrives for the next phase.</p><p style="margin-top:12px">Numbered circles mark rollballs. The faded defensive line retreats 7 m from each new mark.</p></div></details></aside></div>
+
+<footer>Coaching diagram: routes and spacing illustrate the agreed set play. Attack direction is up the screen; all passes travel backwards or flat.</footer>
+</main>
+<script>
+'use strict';
+// Metres: x=0 is the left touchline; y=0 is the attacking try line.
+// All time and geometry are deterministic, so scrubbing and reversing are exact.
+const canvas=document.getElementById('pitch'),ctx=canvas.getContext('2d');
+const duration=33, starts=[0,7,15,23];
+const steps=[
+ {title:'Start · Rollball on the far side',detail:'FW rollballs. FL plays half, then the ball moves through FM to NM.'},
+ {title:'Rollball 1 · Dump in the middle',detail:'NM drives and dumps. FL follows across as half. FM sweeps behind the ruck.'},
+ {title:'Touch 2 · Sweeping middle carries',detail:'FL passes to FM, who straightens and takes the touch. NM arrives as half.'},
+ {title:'Touch 3 · The sub off',detail:'NM passes to FL. NL, NM and FM sub off; three substitutes enter. FL rollballs for NW.'}
+];
+// Piecewise routes are eased at each waypoint; no instantaneous player moves.
+const routes={
+ NW:[[0,4,48],[7,4,48],[13.7,4,40],[15,4,40],[21.8,4,33],[23,4,33],[29,9,30],[31.6,14,27.4]],
+ NL:[[0,13,47],[7,13,47],[13.8,11,41],[23,11,41],[26.2,-8,40.7],[33,-8,40.7]],
+ NM:[[0,25,48],[7,25,48],[10,25,38],[10.5,25,38],[11.1,25,37.4],[15,25,37.4],[18.4,25,35],[20.9,21,33.4],[23.4,21,33.4],[25,21,33.4],[27,10,36],[29,-5,37.2],[33,-5,37.2]],
+ FM:[[0,35,47],[7,35,47],[8.3,33,47],[10,29,46],[11.7,22,44],[13.7,21,41],[17.2,21,41],[20,21,32],[20.5,21,32],[21.1,21,31.4],[23,21,31.4],[23.5,21,31.4],[26,6,33.5],[27.5,-5,34.5],[33,-5,34.5]],
+ FL:[[0,42,46],[1.1,46,45.4],[3,46,45.4],[6,44,46],[7,44,46],[9,37,44],[11,29,42],[13.6,25,39.4],[16.5,25,39.4],[19.2,19,38],[21.8,14,35],[25.6,14,35],[29,14,26],[29.6,14,26],[30.2,14,25.4]],
+ FW:[[0,46,44],[.6,46,44],[1.1,46,43.4],[3,46,43.4],[6,46,48],[7,46,48],[13.8,43,44],[15,43,44],[21.8,39,38],[23,39,38],[31.7,35,34]],
+ SUB1:[[0,-5,33],[27.7,-5,33],[29,3,32],[31.7,23,30]],
+ SUB2:[[0,-5,39.5],[29.3,-5,39.5],[30.1,2,38],[31.7,17,32.5]],
+ SUB3:[[0,-4,41.7],[26.6,-4,41.7],[28,2,40],[31.7,10,35.5]]
+};
+const marks=[{n:0,t:.6,touch:.12,x:46,y:44},{n:1,t:10.5,touch:10,x:25,y:38},{n:2,t:20.5,touch:20,x:21,y:32},{n:3,t:29.6,touch:29,x:14,y:26}];
+const passes=[{a:1.8,b:2.7,from:'FL',to:'FM'},{a:3.2,b:4.1,from:'FM',to:'NM'},{a:15.8,b:16.8,from:'FL',to:'FM'},{a:24,b:25,from:'NM',to:'FL'}];
+let t=0,playing=false,rate=1,last=0,lastCaption='';
+let mobile=window.matchMedia('(max-width:600px)').matches,focusView=mobile;
+const compact=[{title:'1 · Start on the far side',detail:'FW rollballs. FL → FM → NM.'},{title:'2 · Dump in the middle',detail:'NM dumps. FL plays half. FM loops behind.'},{title:'3 · Sweeping middle carries',detail:'FL → FM. FM takes the touch; NM plays half.'},{title:'4 · Three players sub off',detail:'NM → FL. NL, NM + FM off; three subs on.'}];
+const lerp=(a,b,u)=>a+(b-a)*u, ease=u=>u*u*(3-2*u);
+function pos(id,time){const r=routes[id];if(time<=r[0][0])return{x:r[0][1],y:r[0][2]};for(let i=1;i<r.length;i++){if(time<=r[i][0]){const a=r[i-1],b=r[i],u=ease((time-a[0])/(b[0]-a[0]));return{x:lerp(a[1],b[1],u),y:lerp(a[2],b[2],u)}}}const q=r[r.length-1];return{x:q[1],y:q[2]}}
+const hand=(id,time)=>{const p=pos(id,time);return{x:p.x,y:p.y+.85}};
+function blend(a,b,u){return{x:lerp(a.x,b.x,u),y:lerp(a.y,b.y,u)}}
+function ball(time){
+ for(const p of passes)if(time>=p.a&&time<=p.b)return blend(hand(p.from,p.a),hand(p.to,p.b),(time-p.a)/(p.b-p.a));
+ if(time<.12)return hand('FW',time);
+ if(time<.6)return blend(hand('FW',.12),marks[0],(time-.12)/.48);
+ if(time<1.15)return marks[0];
+ if(time<1.65)return blend(marks[0],hand('FL',1.65),(time-1.15)/.5);
+ if(time<1.8)return hand('FL',time);
+ if(time<3.2)return hand('FM',time);
+ if(time<10)return hand('NM',time);
+ if(time<10.5)return blend(hand('NM',10),marks[1],(time-10)/.5);
+ if(time<15.2)return marks[1];
+ if(time<15.7)return blend(marks[1],hand('FL',15.7),(time-15.2)/.5);
+ if(time<15.8)return hand('FL',time);
+ if(time<20)return hand('FM',time);
+ if(time<20.5)return blend(hand('FM',20),marks[2],(time-20)/.5);
+ if(time<23.4)return marks[2];
+ if(time<23.9)return blend(marks[2],hand('NM',23.9),(time-23.4)/.5);
+ if(time<24)return hand('NM',time);
+ if(time<29)return hand('FL',time);
+ if(time<29.6)return blend(hand('FL',29),marks[3],(time-29)/.6);
+ return marks[3];
+}
+function stepAt(time){return time<7?0:time<15?1:time<23?2:3}
+function currentMark(time){let m=marks[0];for(const q of marks)if(time>=q.t)m=q;return m}
+function defensive(time){let x=0,y=37;for(let i=1;i<marks.length;i++){const m=marks[i],old=marks[i-1];if(time>=m.t){const u=ease(Math.min(1,(time-m.t)/1.5));y=lerp(old.y-7,m.y-7,u);x=lerp(i===1?0:i===2?-2:-4,i===1?-2:i===2?-4:-6,u)}}return{x,y}}
+function phaseNote(time){if(time<.6)return'FW touched · rollball 0';if(time<1.8)return'FL plays half';if(time<4.1)return'Ball travels right → left';if(time<7)return'NM has the ball';if(time<10)return'NM drives · FL follows · FM sweeps';if(time<15)return'Rollball 1 · FL arrives as half';if(time<17.2)return'FL → sweeping FM';if(time<20)return'FM straightens and carries';if(time<23)return'Rollball 2 · NM arrives as half';if(time<25)return'NM passes to FL · NL + FM sub off';if(time<29)return'NL + NM + FM sub off · substitutes enter';if(time<29.6)return'FL takes touch 3';return'Rollball 3 · NW ready for next phase'}
+// Drawing uses a fixed logical surface scaled to high DPI.
+const S=8.6,OX=114,OY=99;
+const xy=p=>({x:OX+p.x*S,y:OY+p.y*S});
+function line(a,b,color,width=1,dash=[]){ctx.beginPath();ctx.setLineDash(dash);ctx.strokeStyle=color;ctx.lineWidth=width;ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();ctx.setLineDash([])}
+function text(s,x,y,size=12,color='#fff',align='center',weight=600){ctx.font=`${weight} ${size}px system-ui,sans-serif`;ctx.fillStyle=color;ctx.textAlign=align;ctx.textBaseline='middle';ctx.fillText(s,x,y)}
+function circle(x,y,r,fill,stroke,width=1){ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.stroke()}}
+function field(){
+ ctx.fillStyle='#102c26';ctx.fillRect(0,0,660,800);
+ text('ATTACK ↑',329,24,12,'#baf5db');text('TRY LINE',329,77,10,'#d6f3e1');
+ for(let j=0;j<7;j++){ctx.fillStyle=j%2?'#236346':'#206043';ctx.fillRect(OX,OY+j*10*S,50*S,10*S)}
+ ctx.strokeStyle='#d5ebdc';ctx.lineWidth=2;ctx.strokeRect(OX,OY,50*S,70*S);
+ [10,35,60].forEach(y=>line(xy({x:0,y}),xy({x:50,y}),'#bddccb',y===35?1.5:1,y===35?[]:[5,7]));
+ text('50 m',329,730,11,'#a8c4b7');text('NEAR / LEFT',169,751,11,'#b4d4c2');text('FAR / RIGHT',488,751,11,'#b4d4c2');
+ if(!focusView){ctx.save();ctx.translate(583,400);ctx.rotate(-Math.PI/2);text('70 m',0,0,11,'#a8c4b7');ctx.restore()}
+ // Substitution box sits outside the left touchline, centred on halfway.
+ const active=t>=23&&t<32;
+ ctx.fillStyle=active?'#625637':'#344535';ctx.fillRect(OX-72,OY+30*S,70,12*S);
+ ctx.strokeStyle=active?'#ffda69':'#96b291';ctx.lineWidth=active?2.5:1.5;ctx.setLineDash([5,4]);ctx.strokeRect(OX-72,OY+30*S,70,12*S);ctx.setLineDash([]);
+ text('SUB BOX',OX-38,OY+28.5*S,10,'#ffda69');
+ const m=currentMark(t),d=defensive(t),a=xy({x:50,y:m.y}),b=xy({x:50,y:m.y-7});
+ line({x:a.x+18,y:a.y},{x:b.x+18,y:b.y},'#accbb9',1,[3,3]);
+ line({x:a.x+14,y:a.y},{x:a.x+22,y:a.y},'#accbb9');line({x:b.x+14,y:b.y},{x:b.x+22,y:b.y},'#accbb9');
+ text('7 m',a.x+40,(a.y+b.y)/2,10,'#c9e7d3');
+}
+function trails(){
+ for(const id of Object.keys(routes)){
+  if(id.startsWith('SUB')&&t<(id==='SUB1'?27.7:id==='SUB2'?29.3:26.6))continue;
+  const from=Math.max(id.startsWith('SUB')?(id==='SUB1'?27.7:id==='SUB2'?29.3:26.6):0,t-12);
+  for(let tt=from;tt<t;tt+=.15){const p=pos(id,tt),q=pos(id,Math.min(t,tt+.15));if(Math.hypot(p.x-q.x,p.y-q.y)<.012)continue;const alpha=.08+.42*(1-(t-tt)/12);line(xy(p),xy(q),`rgba(${['NL','NM','FM'].includes(id)&&t>=23?'255,218,105':'125,215,255'},${alpha})`,1.8,[1.5,3.5])}
+ }
+ for(const p of passes){if(t<p.a)continue;const u=Math.min(1,(t-p.a)/(p.b-p.a)),a=xy(hand(p.from,p.a)),b=xy(blend(hand(p.from,p.a),hand(p.to,p.b),u));const alpha=Math.max(.14,1-(t-p.b)/18);line(a,b,`rgba(255,218,105,${alpha})`,2.2)}
+}
+function rollballs(){for(const m of marks){if(t>=m.t){const p=xy(m);circle(p.x,p.y,21,'rgba(12,40,28,.7)','#f6d477',1.5);text(String(m.n),p.x+24,p.y-20,11,'#ffda69');circle(p.x,p.y,3,null,'#ffda69',1)}const dt=t-m.touch;if(dt>=0&&dt<.8){const p=xy(m),u=dt/.8;ctx.save();ctx.globalAlpha=1-u;for(let i=0;i<10;i++){const a=i*Math.PI/5,r=19+u*18;line({x:p.x+Math.cos(a)*r,y:p.y+Math.sin(a)*r},{x:p.x+Math.cos(a)*(r+8),y:p.y+Math.sin(a)*(r+8)},'#fff1ac',2)}text('TOUCH',p.x,p.y-40,10,'#fff1ac');ctx.restore()}}}
+function visiblePlayer(id,time){if(!mobile)return true;if(id.startsWith('SUB'))return time>=(id==='SUB1'?27.7:id==='SUB2'?29.3:26.6);return !(['NL','NM','FM'].includes(id)&&time>23&&pos(id,time).x<-1.9)}
+function players(){
+ const d=defensive(t);for(let i=0;i<6;i++){const p=xy({x:Math.max(2,Math.min(48,5+i*8+d.x)),y:d.y});circle(p.x,p.y,mobile?16:15,'#af7275','#dca8a9',1.5);if(!mobile)text('D'+(i+1),p.x,p.y,10,'#f4dddd')}
+ let half=t<1.8?'FL':t>=10.5&&t<15.8?'FL':t>=20.5&&t<24?'NM':t>=29.6?'NW':null;
+ for(const id of Object.keys(routes)){if(!visiblePlayer(id,t))continue;const p=xy(pos(id,t));const highlight=(id==='NL'&&t>=23&&t<=26.6)||(id==='FM'&&t>=23.5&&t<=27.8)||(id==='NM'&&t>=25&&t<=29.3);ctx.save();if(highlight){circle(p.x,p.y,24+3*Math.sin(t*12),'rgba(255,218,105,.22)','#ffda69',2)}circle(p.x,p.y,mobile?18:16,id.startsWith('SUB')?'#ffda69':'#63c8ff',id===half?'#fff6c6':'#e3f5ff',id===half?3:1.8);const nearby=mobile?Object.keys(routes).filter(other=>other!==id&&visiblePlayer(other,t)).map(other=>xy(pos(other,t))).filter(q=>Math.hypot(q.x-p.x,q.y-p.y)<40):[];const labelY=nearby.length?p.y+(p.y<=nearby[0].y?-29:29):p.y;const label=id.startsWith('SUB')&&mobile?id.replace('SUB','S'):id;if(nearby.length){ctx.fillStyle='#17384d';ctx.fillRect(p.x-18,labelY-12,36,24)}text(label,p.x,labelY,mobile?18:id.startsWith('SUB')?9:11,nearby.length?'#fff':'#122d41','center',800);if(id===half&&!mobile)text('HALF',p.x,p.y-26,9,'#fff1b3');if(highlight&&!mobile)text('SUB OFF',p.x,p.y+31,9,'#ffda69');ctx.restore()}
+}
+function render(){
+ ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,canvas.width,canvas.height);ctx.setTransform(2,0,0,2,focusView?-40:0,focusView?-380:0);field();trails();rollballs();players();
+ const p=xy(ball(t));ctx.save();ctx.translate(p.x+3,p.y+3);ctx.rotate(-.35);ctx.beginPath();ctx.ellipse(0,0,mobile?10:7.5,mobile?6.5:4.7,0,0,Math.PI*2);ctx.fillStyle='#ffeb93';ctx.fill();ctx.strokeStyle='#352b13';ctx.lineWidth=1.5;ctx.stroke();line({x:-3,y:0},{x:3,y:0},'#76602c',1);ctx.restore();
+ if(!focusView&&!mobile){ctx.fillStyle='#122d26';ctx.fillRect(148,43,362,25);text(phaseNote(t),329,56,11,'#ffebad')}
+ document.getElementById('live-note').textContent=phaseNote(t);
+ if(focusView){ctx.setTransform(2,0,0,2,0,0);ctx.fillStyle='#102c26';ctx.fillRect(0,0,600,24);text('SUB BOX ←     ATTACK ↑     FAR SIDE →',300,12,mobile?16:12,'#baf5db')} 
+ const index=stepAt(t),key=index+' '+phaseNote(t);if(key!==lastCaption){document.getElementById('phase').textContent=`STEP ${index+1} OF 4`;document.getElementById('title').textContent=(mobile?compact:steps)[index].title;document.getElementById('detail').textContent=(mobile?compact:steps)[index].detail;document.querySelectorAll('.step').forEach((b,i)=>{b.classList.toggle('active',i===index);b.setAttribute('aria-current',i===index?'step':'false')});lastCaption=key}
+ document.getElementById('seek').value=t;document.getElementById('time').textContent=`0:${String(Math.floor(t)).padStart(2,'0')} / 0:33`;
+ document.getElementById('prev').disabled=index===0;document.getElementById('next').disabled=index===3;
+}
+function updatePlay(){document.getElementById('play').textContent=playing?'❚❚ Pause animation':t>=duration?'↺ Replay animation':'▶ Play animation';document.getElementById('play').setAttribute('aria-pressed',String(playing))}
+function toggle(){if(t>=duration)t=0;playing=!playing;last=performance.now();updatePlay();render()}
+function jump(i){playing=false;t=starts[Math.max(0,Math.min(3,i))];updatePlay();render()}
+document.getElementById('play').onclick=toggle;
+document.getElementById('restart').onclick=()=>{t=0;last=performance.now();updatePlay();render()};
+document.getElementById('prev').onclick=()=>jump(stepAt(t)-1);
+document.getElementById('next').onclick=()=>jump(stepAt(t)+1);
+document.querySelectorAll('.step').forEach((b,i)=>b.onclick=()=>jump(i));
+document.getElementById('speed').onchange=e=>rate=Number(e.target.value);
+document.getElementById('seek').oninput=e=>{playing=false;t=Number(e.target.value);updatePlay();render()};
+document.addEventListener('keydown',e=>{if(['INPUT','SELECT','BUTTON'].includes(e.target.tagName))return;if(e.code==='Space'){e.preventDefault();toggle()}if(e.code==='ArrowRight'){e.preventDefault();jump(stepAt(t)+1)}if(e.code==='ArrowLeft'){e.preventDefault();jump(stepAt(t)-1)}if(e.key.toLowerCase()==='r'){t=0;last=performance.now();render();updatePlay()}});
+function frame(now){if(playing){t=Math.min(duration,t+Math.min(.1,(now-last)/1000)*rate);if(t>=duration){playing=false;updatePlay()}render()}last=now;requestAnimationFrame(frame)}
+function configureView(){canvas.width=focusView?1200:1320;canvas.height=focusView?780:1600;canvas.style.aspectRatio=focusView?'600 / 390':'660 / 800';document.getElementById('view').textContent=focusView?'Show full pitch':'Focus on play';document.getElementById('view').setAttribute('aria-pressed',String(focusView));document.getElementById('view-label').textContent=focusView?'Focused view · attack ↑':'Full pitch · attack ↑';lastCaption='';render()}
+document.getElementById('view').onclick=()=>{focusView=!focusView;configureView()};
+document.getElementById('coaching').open=!mobile;
+window.addEventListener('resize',()=>{const next=window.matchMedia('(max-width:600px)').matches;if(next!==mobile){mobile=next;focusView=mobile;document.getElementById('coaching').open=!mobile;configureView()}});
+configureView();updatePlay();requestAnimationFrame(frame);
+</script></body></html>
